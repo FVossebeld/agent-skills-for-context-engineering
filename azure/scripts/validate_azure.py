@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Validate the Azure companion distribution.
+"""Validate the Azure adaptation distribution.
 
 This validator is intentionally separate from researcher/scripts/validate_repo.py.
 The core validator owns the platform-agnostic corpus under ../skills; this script
-guards the additive Azure source root without adding Azure skills to core fixtures.
+guards the Azure source root without adding Azure skills to core fixtures.
 """
 
 from __future__ import annotations
@@ -104,4 +104,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

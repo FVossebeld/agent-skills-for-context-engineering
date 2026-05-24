@@ -91,8 +91,10 @@ class Validator:
 
     def run(self) -> dict[str, Any]:
         skill_names = self.validate_skills()
-        self.validate_manifests(skill_names)
-        self.validate_docs(skill_names)
+        azure_skill_names = self.collect_azure_skill_names()
+        bundled_skill_names = sorted(skill_names + azure_skill_names)
+        self.validate_manifests(skill_names, azure_skill_names)
+        self.validate_docs(skill_names, azure_skill_names)
         self.validate_researcher()
         self.validate_rubrics()
         self.validate_mechanisms(skill_names)
@@ -111,6 +113,7 @@ class Validator:
                 "errors": errors,
                 "warnings": warnings,
                 "skill_count": len(skill_names),
+                "bundled_skill_count": len(bundled_skill_names),
             },
             "findings": [asdict(f) for f in self.findings],
         }
@@ -166,6 +169,12 @@ class Validator:
 
         return sorted(skill_names)
 
+    def collect_azure_skill_names(self) -> list[str]:
+        azure_skills_dir = self.root / "azure" / "skills"
+        if not azure_skills_dir.exists():
+            return []
+        return sorted(p.name for p in azure_skills_dir.iterdir() if p.is_dir() and (p / "SKILL.md").exists())
+
     def parse_frontmatter(self, text: str, path: Path) -> dict[str, str]:
         if not text.startswith("---\n"):
             self.error(path, "missing opening frontmatter delimiter")
@@ -184,7 +193,7 @@ class Validator:
             data[key.strip()] = value.strip().strip('"')
         return data
 
-    def validate_manifests(self, skill_names: list[str]) -> None:
+    def validate_manifests(self, skill_names: list[str], azure_skill_names: list[str]) -> None:
         marketplace_path = self.root / ".claude-plugin" / "marketplace.json"
         plugin_path = self.root / ".plugin" / "plugin.json"
         marketplace = self.load_json(marketplace_path)
@@ -205,13 +214,24 @@ class Validator:
             self.error(marketplace_path, "plugins[0].skills missing or invalid")
             return
 
+        expected_manifest_paths = sorted(
+            [f"./skills/{name}" for name in skill_names]
+            + [f"./azure/skills/{name}" for name in azure_skill_names]
+        )
         manifest_names = sorted(Path(p).name for p in manifest_paths)
+        expected_manifest_names = sorted(skill_names + azure_skill_names)
         if len(manifest_paths) != len(set(manifest_paths)):
             self.error(marketplace_path, "duplicate skill paths in marketplace manifest")
-        if manifest_names != sorted(skill_names):
+        if sorted(manifest_paths) != expected_manifest_paths:
             self.error(
                 marketplace_path,
-                f"manifest skills differ from skills directory: manifest={manifest_names} skills={skill_names}",
+                "manifest skills differ from default bundled skills: "
+                f"manifest={sorted(manifest_paths)} expected={expected_manifest_paths}",
+            )
+        if manifest_names != expected_manifest_names:
+            self.error(
+                marketplace_path,
+                f"manifest skill names differ from default bundle: manifest={manifest_names} expected={expected_manifest_names}",
             )
         for raw_path in manifest_paths:
             if Path(raw_path).is_absolute() or ".." in Path(raw_path).parts:
@@ -229,7 +249,7 @@ class Validator:
                 f"plugin version {plugin_version} differs from marketplace metadata {marketplace_version}",
             )
 
-    def validate_docs(self, skill_names: list[str]) -> None:
+    def validate_docs(self, skill_names: list[str], azure_skill_names: list[str]) -> None:
         readme = self.root / "README.md"
         if not readme.exists():
             self.error(readme, "required doc missing")
@@ -238,6 +258,9 @@ class Validator:
             for skill in skill_names:
                 if f"skills/{skill}/" not in text and f"`{skill}`" not in text:
                     self.error(readme, f"missing exact published skill mention: {skill}")
+            for skill in azure_skill_names:
+                if f"azure/skills/{skill}/" not in text and f"`{skill}`" not in text:
+                    self.error(readme, f"missing exact published Azure skill mention: {skill}")
 
         root_skill = self.root / "SKILL.md"
         if not root_skill.exists():
@@ -247,11 +270,14 @@ class Validator:
             for skill in skill_names:
                 if f"skills/{skill}/SKILL.md" not in text:
                     self.error(root_skill, f"missing exact internal skill path: {skill}")
+            for skill in azure_skill_names:
+                if f"azure/skills/{skill}/SKILL.md" not in text:
+                    self.error(root_skill, f"missing exact internal Azure skill path: {skill}")
 
         claude = self.root / "CLAUDE.md"
         if claude.exists():
             text = claude.read_text(encoding="utf-8")
-            expected = f"{len(skill_names)} skill"
+            expected = f"{len(skill_names) + len(azure_skill_names)} skill"
             if expected not in text:
                 self.warn(claude, f"does not mention current skill count phrase '{expected}'")
 
@@ -649,7 +675,8 @@ def main() -> int:
         print(
             f"Validation {'passed' if result['ok'] else 'failed'}: "
             f"{summary['errors']} errors, {summary['warnings']} warnings, "
-            f"{summary['skill_count']} skills"
+            f"{summary['skill_count']} core skills, "
+            f"{summary['bundled_skill_count']} bundled skills"
         )
         for finding in result["findings"]:
             print(f"[{finding['severity']}] {finding['path']}: {finding['message']}")

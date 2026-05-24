@@ -1,6 +1,6 @@
 {
   "schema_version": "0.1.0",
-  "purpose": "Azure companion map for Microsoft-native bindings. This file is intentionally separate from researcher/corpus/index.json.",
+  "purpose": "Azure adaptation map for Microsoft-native bindings. This file is intentionally separate from researcher/corpus/index.json.",
   "skills": [
     {
       "name": "agent-publishing",

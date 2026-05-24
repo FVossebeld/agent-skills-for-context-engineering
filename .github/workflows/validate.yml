@@ -31,6 +31,7 @@ jobs:
             researcher/scripts/check_activation_cases.py \
             researcher/scripts/run_benchmarks.py \
             researcher/scripts/skill_health.py \
+            azure/scripts/validate_azure.py \
             researcher/scripts/loop_common.py \
             researcher/scripts/loop_discover.py \
             researcher/scripts/loop_step.py \
@@ -42,6 +43,9 @@ jobs:
 
       - name: Skill health (strict)
         run: python researcher/scripts/skill_health.py --strict --no-history
+
+      - name: Validate Azure distribution
+        run: python azure/scripts/validate_azure.py
 
       - name: Activation regression tests
         run: python researcher/scripts/check_activation_cases.py

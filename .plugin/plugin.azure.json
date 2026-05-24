@@ -4,13 +4,13 @@
     "name": "Agent Skills for Context Engineering Contributors"
   },
   "metadata": {
-    "description": "Microsoft-native companion distribution for context engineering skills. The plugin source is ./azure to avoid caching the full core repository and researcher OS.",
+    "description": "Azure-only subset of the Microsoft-native context engineering adaptation. The plugin source is ./azure to avoid caching the full core repository and researcher OS.",
     "version": "azure-0.1.0"
   },
   "plugins": [
     {
       "name": "context-engineering-azure",
-      "description": "Azure AI and Microsoft-native companion skills for applying context engineering mechanisms with Microsoft Foundry Agent Service and Hosted Agents, Foundry IQ, Foundry Toolbox, Azure AI Search, Fabric, Entra identity, Responsible AI guardrails, publishing, and Azure memory/state.",
+      "description": "Azure AI and Microsoft-native subset skills for applying context engineering mechanisms with Microsoft Foundry Agent Service and Hosted Agents, Foundry IQ, Foundry Toolbox, Azure AI Search, Fabric, Entra identity, Responsible AI guardrails, publishing, and Azure memory/state.",
       "source": "./azure",
       "strict": false,
       "skills": [

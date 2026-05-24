@@ -1,6 +1,6 @@
-# Azure AI / Microsoft-native distribution
+# Azure AI / Microsoft-native adaptation
 
-This distribution turns the context-engineering skill collection into an opinionated Microsoft-native implementation guide without replacing the underlying mechanisms.
+This adaptation turns the context-engineering skill collection into an opinionated Microsoft-native implementation guide without replacing the underlying mechanisms. The root `context-engineering` package includes these Azure skills by default.
 
 ## Design rule
 

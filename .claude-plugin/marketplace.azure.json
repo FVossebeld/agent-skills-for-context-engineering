@@ -1,6 +1,6 @@
 {
   "name": "context-engineering-azure",
-  "description": "Microsoft-native companion skills for applying context engineering with Microsoft Foundry, Foundry Hosted Agents, Foundry IQ, Foundry Toolbox, Azure AI Search, Fabric, Entra identity, Responsible AI guardrails, publishing, and Azure memory/state.",
+  "description": "Azure-only subset of the Microsoft-native context engineering adaptation for Microsoft Foundry, Foundry Hosted Agents, Foundry IQ, Foundry Toolbox, Azure AI Search, Fabric, Entra identity, Responsible AI guardrails, publishing, and Azure memory/state.",
   "version": "azure-0.1.0",
   "author": {
     "name": "Agent Skills for Context Engineering Contributors"

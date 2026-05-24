@@ -1,16 +1,111 @@
 # Agent Skills for Context Engineering
 
-A comprehensive, open collection of Agent Skills focused on context engineering and harness engineering principles for building production-grade AI agent systems. These skills teach the art and science of curating context, designing agent operating loops, and evaluating agent behavior across any agent platform.
+A Microsoft-native adaptation of the Agent Skills for Context Engineering collection.
 
-This fork adds an Azure AI / Microsoft-native companion distribution for Microsoft Foundry Agent Service and Hosted Agents, Foundry IQ, Foundry Toolbox, Azure AI Search, Fabric, Entra identity, Responsible AI guardrails, publishing, and Azure memory/state. The original platform-agnostic core skills remain intact.
+The default `context-engineering` package now installs both the core context-engineering skills and the Azure AI / Microsoft Foundry implementation skills. This is not a separate extension layered on afterward. The standard distribution is intended to help agents move from mechanism-level context engineering to Microsoft-native architecture choices by default: Microsoft Foundry Agent Service and Hosted Agents, Foundry IQ, Foundry Toolbox, Azure AI Search, Fabric, Entra identity, Responsible AI guardrails, publishing, and Azure memory/state.
 
 [DeepWiki: Learn more here](https://deepwiki.com/muratcankoylan/Agent-Skills-for-Context-Engineering)
 
-## What is Context Engineering?
+## What this adaptation does
 
-Context engineering is the discipline of managing the language model's context window. Unlike prompt engineering, which focuses on crafting effective instructions, context engineering addresses the holistic curation of all information that enters the model's limited attention budget: system prompts, tool definitions, retrieved documents, message history, and tool outputs.
+Context engineering is the discipline of curating everything that enters a model's context window: system prompts, tool definitions, retrieved documents, message history, tool outputs, memory, files, and operating-loop state. The core skills teach the transferable mechanisms. The Azure skills bind those mechanisms to Microsoft products, identity boundaries, deployment surfaces, governance controls, and operational caveats.
 
-The fundamental challenge is that context windows are constrained not by raw token capacity but by attention mechanics. As context length increases, models exhibit predictable degradation patterns: the "lost-in-the-middle" phenomenon, U-shaped attention curves, and attention scarcity. Effective context engineering means finding the smallest possible set of high-signal tokens that maximize the likelihood of desired outcomes.
+Default bias:
+
+1. Prefer Microsoft Foundry Agent Service and Foundry Hosted Agents for managed agent runtimes.
+2. Prefer Microsoft Agent Framework or Semantic Kernel for enterprise code-first orchestration.
+3. Prefer Foundry Toolbox for curated tool catalogs once a system has more than a small non-overlapping tool set.
+4. Prefer Foundry IQ, Azure AI Search, File Search, SharePoint grounding, Fabric Data Agent, Cosmos DB, Blob, and Redis over ad hoc retrieval or memory infrastructure.
+5. Prefer Entra ID, managed identity, RBAC, on-behalf-of access, private networking, Azure Monitor, and Responsible AI controls before adding custom governance.
+
+## Default package
+
+Install the standard plugin to get all 24 skills:
+
+- 15 core context-engineering and harness-engineering skills under [`skills/`](skills/)
+- 9 Microsoft-native implementation skills under [`azure/skills/`](azure/skills/)
+- The researcher operating system under [`researcher/`](researcher/) for deterministic gates, mechanism provenance, activation fixtures, and benchmark reporting
+
+### Claude Code
+
+```text
+/plugin marketplace add muratcankoylan/Agent-Skills-for-Context-Engineering
+/plugin install context-engineering@context-engineering-marketplace
+```
+
+### Cursor, GitHub Copilot, and Open Plugins tools
+
+Use the default Open Plugins manifest:
+
+```text
+.plugin/plugin.json
+```
+
+The default Claude marketplace manifest is:
+
+```text
+.claude-plugin/marketplace.json
+```
+
+The older Azure-only manifests remain available as a subset install path for environments that want only Microsoft-native binding skills, but they are no longer the primary distribution contract:
+
+```text
+.plugin/plugin.azure.json
+.claude-plugin/marketplace.azure.json
+```
+
+## Skill map
+
+### Core context and harness skills
+
+| Skill | Owns |
+| --- | --- |
+| [`context-fundamentals`](skills/context-fundamentals/) | Context-window mental models, anatomy of context, attention-budget reasoning |
+| [`context-degradation`](skills/context-degradation/) | Lost-in-middle, context poisoning, distraction, clash, and degraded long-session behavior |
+| [`context-compression`](skills/context-compression/) | Summaries, handoffs, artifact trails, and tokens-per-task reduction |
+| [`context-optimization`](skills/context-optimization/) | Observation masking, prefix/cache strategy, retrieval precision, budget allocation |
+| [`latent-briefing`](skills/latent-briefing/) | Task-guided KV cache compaction for worker models when the runtime exposes compatible KV state |
+| [`multi-agent-patterns`](skills/multi-agent-patterns/) | Orchestrator, peer, hierarchical, and parallel-agent coordination patterns |
+| [`memory-systems`](skills/memory-systems/) | Short-term, long-term, graph, vector, entity, and filesystem memory choices |
+| [`tool-design`](skills/tool-design/) | Agent-tool contracts, schemas, descriptions, tool consolidation, actionable errors |
+| [`filesystem-context`](skills/filesystem-context/) | File-backed scratchpads, dynamic discovery, large-output offloading, cross-agent handoffs |
+| [`hosted-agents`](skills/hosted-agents/) | Remote sandboxes, warm pools, background agent infrastructure, multiplayer agent sessions |
+| [`evaluation`](skills/evaluation/) | Deterministic checks, regression suites, production monitoring, quality gates |
+| [`advanced-evaluation`](skills/advanced-evaluation/) | LLM judges, pairwise comparison, calibration, bias mitigation |
+| [`harness-engineering`](skills/harness-engineering/) | Autonomous loops, locked evaluators, novelty gates, durable logs, rollback, approvals |
+| [`project-development`](skills/project-development/) | Task-model fit, staged pipelines, structured outputs, operational cost |
+| [`bdi-mental-states`](skills/bdi-mental-states/) | Belief-desire-intention state modeling, rational traces, neuro-symbolic transformations |
+
+### Microsoft-native implementation skills
+
+| Skill | Owns |
+| --- | --- |
+| [`azure-identity-for-agents`](azure/skills/azure-identity-for-agents/) | Managed identity, RBAC, OBO access, tenant boundaries, per-user authorization |
+| [`foundry-hosted-agents`](azure/skills/foundry-hosted-agents/) | Foundry Hosted Agents, managed runtimes, production endpoints, sandboxing, runtime state |
+| [`foundry-iq-knowledge-layer`](azure/skills/foundry-iq-knowledge-layer/) | Foundry IQ knowledge bases, reusable enterprise grounding, federated knowledge APIs |
+| [`foundry-tool-governance`](azure/skills/foundry-tool-governance/) | Foundry Toolbox, tool catalog, MCP governance, OpenAPI tools, APIM AI Gateway |
+| [`azure-agentic-retrieval`](azure/skills/azure-agentic-retrieval/) | Azure AI Search, agentic retrieval, File Search, SharePoint grounding, citations |
+| [`responsible-ai-guardrails`](azure/skills/responsible-ai-guardrails/) | Content filters, Prompt Shields, groundedness checks, task adherence, red teaming |
+| [`agent-publishing`](azure/skills/agent-publishing/) | Foundry versions, stable endpoints, Teams, Microsoft 365 Copilot, promotion, rollback |
+| [`fabric-data-agent`](azure/skills/fabric-data-agent/) | Fabric Data Agent, semantic models, lakehouses, warehouses, Power BI aligned answers |
+| [`azure-memory-state`](azure/skills/azure-memory-state/) | Cosmos DB, Blob, ADLS, Redis, session state, episodic memory, append-only logs |
+
+Start with [`azure/AZURE-DISTRIBUTION.md`](azure/AZURE-DISTRIBUTION.md) when applying the core mechanisms to the Microsoft stack.
+
+## Core-to-Azure routing
+
+| Core decision | Microsoft-native default |
+| --- | --- |
+| Runtime and sandboxing | `hosted-agents` plus `foundry-hosted-agents` |
+| Tool contract and governance | `tool-design` plus `foundry-tool-governance` |
+| Enterprise knowledge and retrieval | `memory-systems`, `context-optimization`, `foundry-iq-knowledge-layer`, `azure-agentic-retrieval` |
+| Identity and data boundaries | `tool-design`, `harness-engineering`, `azure-identity-for-agents` |
+| Safety and quality gates | `context-degradation`, `evaluation`, `advanced-evaluation`, `responsible-ai-guardrails` |
+| Publishing and rollout | `hosted-agents`, `harness-engineering`, `agent-publishing` |
+| Analytical data grounding | `memory-systems`, `fabric-data-agent` |
+| Durable memory and state | `memory-systems`, `filesystem-context`, `azure-memory-state` |
+
+The core skill usually owns the mechanism. The Azure skill owns the Microsoft product choice, deployment caveat, security boundary, and operational control.
 
 ## Recognition
 
@@ -21,363 +116,78 @@ This repository is cited in academic research as foundational work on static ski
 1. [Meta Context Engineering via Agentic Skill Evolution](https://arxiv.org/pdf/2601.21557), Peking University State Key Laboratory of General Artificial Intelligence (2025)
 2. [Agent Harness Engineering: A Survey](https://openreview.net/pdf/f358711a95aaaf61fdeffd4ef3fc60fba9b8da57.pdf), CMU, Yale, JHU, NEU, Tulane, UAB, OSU, Virginia Tech, and Amazon (2026)
 
-## Skills Overview
+## Researcher operating system
 
-### Foundational Skills
+The [`researcher/`](researcher/) directory is a file-based operating system for turning external research into skill changes. It keeps the corpus auditable instead of leaving it as a static anthology.
 
-These skills establish the foundational understanding required for all subsequent context engineering work.
+It includes:
 
-| Skill | Description |
-|-------|-------------|
-| [context-fundamentals](skills/context-fundamentals/) | Understand what context is, why it matters, and the anatomy of context in agent systems |
-| [context-degradation](skills/context-degradation/) | Recognize patterns of context failure: lost-in-middle, poisoning, distraction, and clash |
-| [context-compression](skills/context-compression/) | Design and evaluate compression strategies for long-running sessions |
+- Rubrics for content curation, skill changes, harness changes, and pairwise skill revision
+- A mechanism registry with append-only accepted and rejected ledgers
+- Claim provenance for numeric, benchmark, volatile, and vendor-performance claims
+- A corpus index for the mechanism-first core skills
+- Activation regression fixtures and adversarial benchmark scenarios
+- A run state machine for autonomous research loops
+- Deterministic validation scripts used by CI
 
-### Architectural Skills
+The core researcher corpus remains mechanism-first. Azure product bindings have their own [`azure/corpus/index.json`](azure/corpus/index.json) so Microsoft product defaults do not pollute core mechanism provenance.
 
-These skills cover the patterns and structures for building effective agent systems.
+## Validation
 
-| Skill | Description |
-|-------|-------------|
-| [multi-agent-patterns](skills/multi-agent-patterns/) | Master orchestrator, peer-to-peer, and hierarchical multi-agent architectures |
-| [memory-systems](skills/memory-systems/) | Design short-term, long-term, and graph-based memory architectures |
-| [tool-design](skills/tool-design/) | Build tools that agents can use effectively |
-| [filesystem-context](skills/filesystem-context/) | Use filesystems for dynamic context discovery, tool output offloading, and plan persistence |
-| [hosted-agents](skills/hosted-agents/) | **NEW** Build background coding agents with sandboxed VMs, pre-built images, multiplayer support, and multi-client interfaces |
-
-### Operational Skills
-
-These skills address the ongoing operation and optimization of agent systems.
-
-| Skill | Description |
-|-------|-------------|
-| [context-optimization](skills/context-optimization/) | Apply compaction, masking, and caching strategies |
-| [latent-briefing](skills/latent-briefing/) | Share task-relevant orchestrator state with workers via task-guided KV cache compaction when the worker runtime is controllable |
-| [evaluation](skills/evaluation/) | Build evaluation frameworks for agent systems |
-| [advanced-evaluation](skills/advanced-evaluation/) | Master LLM-as-a-Judge techniques: direct scoring, pairwise comparison, rubric generation, and bias mitigation |
-| [harness-engineering](skills/harness-engineering/) | Design autonomous agent harnesses with locked metrics, durable logs, novelty gates, rollback, and human approval boundaries |
-
-### Development Methodology
-
-These skills cover the meta-level practices for building LLM-powered projects.
-
-| Skill | Description |
-|-------|-------------|
-| [project-development](skills/project-development/) | Design and build LLM projects from ideation through deployment, including task-model fit analysis, pipeline architecture, and structured output design |
-
-### Cognitive Architecture Skills
-
-These skills cover formal cognitive modeling for rational agent systems.
-
-| Skill | Description |
-|-------|-------------|
-| [bdi-mental-states](skills/bdi-mental-states/) | **NEW** Transform external RDF context into agent mental states (beliefs, desires, intentions) using formal BDI ontology patterns for deliberative reasoning and explainability |
-
-## Design Philosophy
-
-### Progressive Disclosure
-
-Each skill is structured for efficient context use. At startup, agents load only skill names and descriptions. Full content loads only when a skill is activated for relevant tasks.
-
-### Platform Agnosticism
-
-These skills focus on transferable principles rather than vendor-specific implementations. The patterns work across Claude Code, Cursor, and any agent platform that supports skills or allows custom instructions.
-
-### Microsoft-native Companion Distribution
-
-The [`azure/`](azure/) directory provides an additive Azure AI / Microsoft-native companion distribution. It keeps the core skills platform-agnostic while adding opinionated defaults for Microsoft Foundry Agent Service and Hosted Agents, Foundry IQ, Foundry Toolbox, Azure AI Search, Fabric, Entra identity, Responsible AI guardrails, publishing, and Azure memory/state.
-
-Use [`azure/AZURE-DISTRIBUTION.md`](azure/AZURE-DISTRIBUTION.md) when implementing these mechanisms on the Microsoft stack. The Azure plugin uses `source: "./azure"` so it can be installed separately without caching the full researcher OS.
-
-### Conceptual Foundation with Practical Examples
-
-Scripts and examples demonstrate concepts using Python pseudocode that works across environments without requiring specific dependency installations.
-
-## Usage
-
-### Usage with Claude Code
-
-This repository is a **Claude Code Plugin Marketplace** containing context engineering skills that Claude automatically discovers and activates based on your task context.
-
-### Installation
-
-**Step 1: Add the Marketplace**
-
-Run this command in Claude Code to register this repository as a plugin source:
-
-```
-/plugin marketplace add muratcankoylan/Agent-Skills-for-Context-Engineering
-```
-
-**Step 2: Install the Plugin**
-
-Option A - Browse and install:
-1. Select `Browse and install plugins`
-2. Select `context-engineering-marketplace`
-3. Select `context-engineering`
-4. Select `Install now`
-
-Option B - Direct install via command:
-
-```
-/plugin install context-engineering@context-engineering-marketplace
-```
-
-This installs all 15 skills in a single plugin. Skills are activated automatically based on your task context.
-
-### Skill Activation Scenarios
-
-| Skill | Activate When |
-|-------|---------------|
-| `context-fundamentals` | Establishing context-window mental models, planning agent architecture, or explaining how context components affect model behavior |
-| `context-degradation` | Diagnosing attention failures, context poisoning, lost-in-middle behavior, or degraded agent performance across long sessions |
-| `context-compression` | Preserving useful state while reducing conversation, tool-output, or trajectory size under context pressure |
-| `context-optimization` | Improving token efficiency, retrieval precision, prefix reuse, masking, partitioning, or budget allocation for agent systems |
-| `latent-briefing` | Sharing orchestrator trajectory with workers via task-guided KV cache compaction when the worker runtime is controllable and the models are compatible |
-| `multi-agent-patterns` | Choosing coordination patterns, isolating context across agents, designing handoffs, or evaluating whether parallel agents are justified |
-| `memory-systems` | Persisting cross-session knowledge, tracking entities over time, choosing memory frameworks, or designing retrieval and update semantics |
-| `tool-design` | Defining agent-tool contracts, consolidating tool surfaces, improving descriptions, or making tool errors actionable |
-| `filesystem-context` | Moving large or durable context into files, creating scratchpads, supporting just-in-time discovery, or coordinating agents through shared artifacts |
-| `hosted-agents` | Running coding agents in remote sandboxes, background environments, warm pools, or multiplayer agent infrastructure |
-| `evaluation` | Creating deterministic checks, rubrics, regression suites, production monitoring, or quality gates for agent behavior |
-| `advanced-evaluation` | Using LLM judges, pairwise comparison, calibration, bias mitigation, or human-aligned quality assessment |
-| `harness-engineering` | Designing autonomous loops with locked evaluators, editable surfaces, durable logs, novelty gates, rollback, and approval boundaries |
-| `project-development` | Deciding whether an LLM is appropriate, shaping batch pipelines, creating staged artifacts, or estimating operational cost |
-| `bdi-mental-states` | Modeling beliefs, desires, intentions, rational action traces, or neuro-symbolic state transformations for agents |
-
-<img width="1014" height="894" alt="Screenshot 2025-12-26 at 12 34 47 PM" src="https://github.com/user-attachments/assets/f79aaf03-fd2d-4c71-a630-7027adeb9bfe" />
-
-### For Cursor (Open Plugins)
-
-This repository is listed on the [Cursor Plugin Directory](https://cursor.directory/plugins/context-engineering).
-
-The `.plugin/plugin.json` manifest follows the [Open Plugins](https://open-plugins.com) standard, so the repo also works with any conformant agent tool (Codex, GitHub Copilot, etc.).
-
-### Azure AI / Microsoft-native Companion
-
-For Microsoft-native implementations, use the companion distribution under `azure/`. It includes nine skills:
-
-| Skill | Activate When |
-|-------|---------------|
-| `azure-identity-for-agents` | Designing managed identity, RBAC, OBO, tenant boundaries, or per-user authorization |
-| `foundry-hosted-agents` | Designing managed Foundry hosted agent runtimes, endpoints, sandboxing, scaling, runtime state, or production execution boundaries |
-| `foundry-iq-knowledge-layer` | Designing reusable Foundry IQ knowledge bases, enterprise grounding, federated sources, or permission-aware knowledge APIs |
-| `foundry-tool-governance` | Curating tools with Foundry Toolbox, tool catalog, MCP, OpenAPI, Azure Functions, or APIM AI Gateway |
-| `azure-agentic-retrieval` | Implementing Azure AI Search, File Search, SharePoint grounding, knowledge sources, or retrieval citations |
-| `responsible-ai-guardrails` | Applying Content Safety, Prompt Shields, groundedness, task adherence, red teaming, or safety monitoring |
-| `agent-publishing` | Publishing agents to stable Foundry endpoints, Teams, Microsoft 365 Copilot, or enterprise registries |
-| `fabric-data-agent` | Grounding agents in Fabric semantic models, lakehouses, warehouses, and Power BI-aligned metrics |
-| `azure-memory-state` | Implementing Cosmos DB, Blob, ADLS, Redis, session state, episodic memory, or append-only logs |
-
-#### Install the Azure companion in Copilot CLI
-
-In Copilot CLI, run `/plugin` and install this repository's Azure Open Plugins manifest:
-
-```text
-FVossebeld/agent-skills-for-context-engineering/.plugin/plugin.azure.json
-```
-
-If you are working from a local clone, install the local manifest instead:
-
-```text
-.plugin/plugin.azure.json
-```
-
-Then run `/skills` to confirm the Azure companion skills are available. The Azure plugin is a Microsoft-native companion distribution, not a replacement for the platform-agnostic core plugin in `.plugin/plugin.json`.
-
-#### Publish the Azure companion
-
-To publish the Azure companion to a marketplace, publish this repository or fork with the Azure files included and submit the Open Plugins manifest:
-
-```text
-.plugin/plugin.azure.json
-```
-
-Public repository:
-
-```text
-https://github.com/FVossebeld/agent-skills-for-context-engineering
-```
-
-The Claude marketplace metadata for the same Azure companion distribution is:
-
-```text
-.claude-plugin/marketplace.azure.json
-```
-
-### Using Individual Skills
-
-To use a single skill without installing the full plugin, copy its `SKILL.md` directly into your project's `.claude/skills/` directory:
+Top-level gates:
 
 ```bash
-# Example: add just the context-fundamentals skill
-mkdir -p .claude/skills
-curl -o .claude/skills/context-fundamentals.md \
-  https://raw.githubusercontent.com/muratcankoylan/Agent-Skills-for-Context-Engineering/main/skills/context-fundamentals/SKILL.md
+python3 researcher/scripts/validate_repo.py --strict
+python3 researcher/scripts/skill_health.py --strict --no-history
+python3 azure/scripts/validate_azure.py
+python3 researcher/scripts/check_activation_cases.py
+python3 researcher/scripts/run_benchmarks.py
 ```
 
-Available skills: `context-fundamentals`, `context-degradation`, `context-compression`, `context-optimization`, `latent-briefing`, `multi-agent-patterns`, `memory-systems`, `tool-design`, `filesystem-context`, `hosted-agents`, `evaluation`, `advanced-evaluation`, `harness-engineering`, `project-development`, `bdi-mental-states`
+Example project gates:
 
-### For Custom Implementations
+```bash
+cd examples/llm-as-judge-skills
+npm install
+npm run build
+npm test
+npm run lint
+npm run typecheck
 
-Extract the principles and patterns from any skill and implement them in your agent framework. The skills are deliberately platform-agnostic.
+cd examples/interleaved-thinking
+pip install -e ".[dev]"
+pytest
+ruff check .
+```
 
 ## Examples
 
-The [examples](examples/) folder contains complete system designs that demonstrate how multiple skills work together in practice.
+The [`examples/`](examples/) directory contains complete system designs that demonstrate how multiple skills compose.
 
-| Example | Description | Skills Applied |
-|---------|-------------|----------------|
-| [digital-brain-skill](examples/digital-brain-skill/) | **NEW** Personal operating system for founders and creators. Complete Claude Code skill with 6 modules, 4 automation scripts | context-fundamentals, context-optimization, memory-systems, tool-design, multi-agent-patterns, evaluation, project-development |
-| [x-to-book-system](examples/x-to-book-system/) | Multi-agent system that monitors X accounts and generates daily synthesized books | multi-agent-patterns, memory-systems, context-optimization, tool-design, evaluation |
-| [llm-as-judge-skills](examples/llm-as-judge-skills/) | Production-ready LLM evaluation tools with TypeScript implementation, 19 passing tests | advanced-evaluation, tool-design, context-fundamentals, evaluation |
-| [book-sft-pipeline](examples/book-sft-pipeline/) | Train models to write in any author's style. Includes Gertrude Stein case study with 70% human score on Pangram, $2 total cost | project-development, context-compression, multi-agent-patterns, evaluation |
-| [interleaved-thinking](examples/interleaved-thinking/) | Reasoning trace optimizer that captures, analyzes, and converts agent failure patterns into generated skills | evaluation, advanced-evaluation, context-degradation, harness-engineering |
-
-Each example includes:
-- Complete PRD with architecture decisions
-- Skills mapping showing which concepts informed each decision
-- Implementation guidance
-
-### Digital Brain Skill Example
-
-The [digital-brain-skill](examples/digital-brain-skill/) example is a complete personal operating system demonstrating comprehensive skills application:
-
-- **Progressive Disclosure**: 3-level loading (SKILL.md → MODULE.md → data files)
-- **Module Isolation**: 6 independent modules (identity, content, knowledge, network, operations, agents)
-- **Append-Only Memory**: JSONL files with schema-first lines for agent-friendly parsing
-- **Automation Scripts**: 4 consolidated tools (weekly_review, content_ideas, stale_contacts, idea_to_draft)
-
-Includes detailed traceability in [HOW-SKILLS-BUILT-THIS.md](examples/digital-brain-skill/HOW-SKILLS-BUILT-THIS.md) mapping every architectural decision to specific skill principles.
-
-### LLM-as-Judge Skills Example
-
-The [llm-as-judge-skills](examples/llm-as-judge-skills/) example is a complete TypeScript implementation demonstrating:
-
-- **Direct Scoring**: Evaluate responses against weighted criteria with rubric support
-- **Pairwise Comparison**: Compare responses with position bias mitigation
-- **Rubric Generation**: Create domain-specific evaluation standards
-- **EvaluatorAgent**: High-level agent combining all evaluation capabilities
-
-### Book SFT Pipeline Example
-
-The [book-sft-pipeline](examples/book-sft-pipeline/) example demonstrates training small models (8B) to write in any author's style:
-
-- **Intelligent Segmentation**: Two-tier chunking with overlap for maximum training examples
-- **Prompt Diversity**: 15+ templates to prevent memorization and force style learning
-- **Tinker Integration**: Complete LoRA training workflow with $2 total cost
-- **Validation Methodology**: Modern scenario testing proves style transfer vs content memorization
-
-Integrates with context engineering skills: project-development, context-compression, multi-agent-patterns, evaluation.
-
-## Researcher Operating System
-
-The [researcher](researcher/) directory is a file-based operating system for turning external research into skill changes. It exists so this repository can act as a compounding source of truth instead of an anthology.
-
-### Measured router-benchmark results
-
-The skill router (which decides whether the right skill gets loaded for a given task) has been benchmarked end-to-end against four frontier models via the [Cursor SDK](https://cursor.com/docs/sdk/typescript). Three full sweeps (50 prompts x 4 models x 3 replications = 600 calls each):
-
-- Baseline: [`researcher/benchmarks/router/results-published/2026-05-15.md`](researcher/benchmarks/router/results-published/2026-05-15.md)
-- After targeted description rewrites: [`researcher/benchmarks/router/results-published/2026-05-15-v2.md`](researcher/benchmarks/router/results-published/2026-05-15-v2.md) (includes delta-vs-baseline)
-- After corpus-wide hardening: [`researcher/benchmarks/router/results-published/2026-05-19.md`](researcher/benchmarks/router/results-published/2026-05-19.md) (600/600 usable records, 0 format failures)
-
-Per-skill effect size for the three skills the data flagged:
-
-| Skill | Baseline top-1 | After rewrite | Delta |
-| --- | --- | --- | --- |
-| `context-fundamentals` | 0.255 | 0.489 | +23.4pp |
-| `project-development` | 0.750 | 1.000 | +25pp (now perfect) |
-| `tool-design` | 0.729 | 0.807 | +7.8pp |
-
-Per-model top-1 accuracy after the corpus-wide hardening pass:
-
-| Model | Top-1 | Top-3 |
+| Example | Description | Skills applied |
 | --- | --- | --- |
-| gemini-3.1-pro | 0.920 | 0.933 |
-| composer-2 | 0.913 | 0.947 |
-| gpt-5.5 | 0.913 | 0.973 |
-| claude-opus-4-7 | 0.840 | 0.933 |
-
-Reproduce any of these numbers exactly via the runner under `researcher/benchmarks/sdk-runner/`.
-
-### What it includes
-
-- **Source registry** (`researcher/source-registry.md`): priority sources, exclusion rules, monitoring queries.
-- **Rubrics** (`researcher/rubrics/`): content curation, skill change, harness change, pairwise skill revision.
-- **Mechanism registry** (`researcher/mechanisms/registry.jsonl` + `ledgers/`): 16 accepted behavior changes used as the primary novelty signal, with append-only accepted/rejected ledgers for institutional memory.
-- **Claim provenance** (`researcher/claims/index.jsonl`): 12 provenance-tracked claims with source URL, evidence strength, volatility, and last reviewed date.
-- **Corpus index** (`researcher/corpus/index.json`): canonical machine-readable map of skills, activation scenarios, mechanism IDs, and claim IDs.
-- **Run state machine** (`researcher/runs/<run-id>/run-state.json`): `initialized -> retrieved -> evaluated -> proposed -> novelty_checked -> validated -> pr_ready -> closed`.
-- **Activation regression tests** (`researcher/fixtures/activation-cases.jsonl`): 19 deterministic prompts that catch skill-boundary confusion.
-- **Adversarial benchmark harness** (`researcher/benchmarks/`): scenarios that try to game the loop (duplicate mechanisms, unretrieved evidence, wrong rubric math, self-approved rubric changes, weak-evidence novelty).
-- **Continuous loop** (`researcher/scripts/loop_*.py` + `researcher/orchestration/launchd/`): inbox, source discovery, one-state-at-a-time advancement, daily ops, parked review queue, launchd service definitions.
-- **Skill health gate** (`researcher/scripts/skill_health.py`): deterministic body-quality scoring; current strict corpus score is 0.9117 with 0 flagged skills.
-
-### Operator commands
-
-```bash
-# Deterministic gates (also run in CI on every PR)
-python3 researcher/scripts/validate_repo.py --strict
-python3 researcher/scripts/skill_health.py --strict --no-history
-python3 researcher/scripts/run_benchmarks.py
-python3 researcher/scripts/check_activation_cases.py
-
-# Per-run readiness (active runs only)
-python3 researcher/scripts/validate_run.py --run-dir researcher/runs/<run-id>
-
-# Continuous loop, manual
-python3 researcher/scripts/loop_discover.py
-python3 researcher/scripts/loop_step.py --allow-fetch
-python3 researcher/scripts/loop_daily.py
-python3 researcher/scripts/loop_status.py
-
-# Continuous loop, daemon (macOS)
-researcher/orchestration/launchd/install.sh    # install launchd jobs (10-min step, 12h discover, daily ops)
-researcher/orchestration/launchd/uninstall.sh  # remove launchd jobs
-```
-
-See [researcher/runbooks/continuous-operation.md](researcher/runbooks/continuous-operation.md) for daemon details, budgets, and the human review surface.
-
-### Guarantees
-
-- The loop never invokes paid LLMs or makes outbound writes; HTTP retrieval is stdlib-only with a 1.5 MB cap and a 30-second timeout.
-- Mechanism promotion requires a recorded human reviewer and a passing run-readiness check.
-- All queue mutations are atomic (temp file + `os.replace`) and serialized via `fcntl` locks.
-- Agents may prepare PRs after gates pass; merge and push remain human-controlled.
-
-## Star History
-<img width="3664" height="2648" alt="star-history-2026317" src="https://github.com/user-attachments/assets/0fe53d8d-7fdd-45be-9c28-057881b23b44" />
+| [`digital-brain-skill`](examples/digital-brain-skill/) | Personal operating system with progressive disclosure, module isolation, append-only memory, and automation scripts | `context-fundamentals`, `context-optimization`, `memory-systems`, `tool-design`, `multi-agent-patterns`, `evaluation`, `project-development` |
+| [`x-to-book-system`](examples/x-to-book-system/) | Multi-agent system that monitors X accounts and generates daily synthesized books | `multi-agent-patterns`, `memory-systems`, `context-optimization`, `tool-design`, `evaluation` |
+| [`llm-as-judge-skills`](examples/llm-as-judge-skills/) | TypeScript LLM evaluation tools with direct scoring, pairwise comparison, rubric generation, and evaluator agents | `advanced-evaluation`, `tool-design`, `context-fundamentals`, `evaluation` |
+| [`book-sft-pipeline`](examples/book-sft-pipeline/) | Pipeline for training small models to write in an author's style | `project-development`, `context-compression`, `multi-agent-patterns`, `evaluation` |
+| [`interleaved-thinking`](examples/interleaved-thinking/) | Reasoning trace optimizer that converts agent failure patterns into generated skills | `evaluation`, `advanced-evaluation`, `context-degradation`, `harness-engineering` |
 
 ## Structure
 
-Each skill follows the Agent Skills specification:
-
+```text
+skills/<skill-name>/SKILL.md          # Core mechanism-first skills
+azure/skills/<skill-name>/SKILL.md    # Microsoft-native implementation skills
+azure/AZURE-DISTRIBUTION.md           # Core-to-Azure mapping
+researcher/                           # Deterministic research and validation OS
+template/SKILL.md                     # Canonical skill template
 ```
-skill-name/
-├── SKILL.md              # Required: instructions + metadata
-├── scripts/              # Optional: executable code demonstrating concepts
-└── references/           # Optional: additional documentation and resources
-```
-
-See the [template](template/) folder for the canonical skill structure.
 
 ## Contributing
 
-This repository follows the Agent Skills open development model. Contributions are welcome from the broader ecosystem. When contributing:
+When changing skills, update every surface that owns the behavior: frontmatter description, `When to Activate`, integration guidance, manifests, corpus index, activation fixtures, and validation. Keep core mechanism claims in `researcher/`; keep Microsoft product-binding metadata in `azure/` unless a core skill owns the claim.
 
-1. Follow the skill template structure
-2. Provide clear, actionable instructions
-3. Include working examples where appropriate
-4. Document trade-offs and potential issues
-5. Keep SKILL.md under 500 lines for optimal performance
-
-Feel free to contact [Muratcan Koylan](https://x.com/koylanai) for collaboration opportunities or any inquiries.
+Agents may prepare changes and pass gates, but push and merge remain human-controlled.
 
 ## License
 
-MIT License - see LICENSE file for details.
-
-## References
-
-The principles in these skills are derived from research and production experience at leading AI labs and framework developers. Each skill includes references to the underlying research and case studies that inform its recommendations.
+MIT License - see [LICENSE](LICENSE) for details.

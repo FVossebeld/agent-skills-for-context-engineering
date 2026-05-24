@@ -1,11 +1,11 @@
 ---
 name: context-engineering-collection
-description: A comprehensive collection of Agent Skills for context engineering, harness engineering, multi-agent architectures, and production agent systems. Use when building, optimizing, evaluating, or debugging agent systems that require effective context management and reliable operating loops.
+description: A Microsoft-native adaptation of context engineering skills for production agent systems. Use when building, optimizing, evaluating, governing, publishing, or debugging agent systems with core context-engineering mechanisms plus Azure AI and Microsoft Foundry implementation defaults.
 ---
 
 # Agent Skills for Context Engineering
 
-This collection provides structured guidance for building production-grade AI agent systems through effective context engineering.
+This collection provides structured guidance for building production-grade AI agent systems through effective context engineering, with Azure AI and Microsoft Foundry defaults included in the standard distribution.
 
 ## When to Activate
 
@@ -17,6 +17,7 @@ Activate these skills when:
 - Creating or evaluating tools for agents
 - Implementing memory and persistence layers
 - Designing autonomous research or evaluation harnesses
+- Binding agent systems to Microsoft Foundry, Azure AI Search, Fabric, Entra identity, Responsible AI controls, and Azure memory/state
 
 ## Skill Map
 
@@ -72,25 +73,52 @@ Effective LLM project development begins with task-model fit analysis: validatin
 **BDI Mental States**
 Belief-desire-intention modeling provides a formal way to translate structured external context into agent mental states. Use it for rational agency, explainability, and systems that need auditable links between beliefs, goals, and chosen actions.
 
+### Microsoft-native Adaptation
+
+**Azure Identity for Agents**
+Agent access should be bound to Entra identity, managed identity, RBAC, on-behalf-of flows, tenant boundaries, and per-user authorization instead of broad service-account shortcuts.
+
+**Foundry Hosted Agents**
+Microsoft Foundry Hosted Agents provide the preferred managed runtime for production agent endpoints, sandboxing, runtime state, scaling, and operational controls.
+
+**Foundry IQ Knowledge Layer**
+Foundry IQ is the default shared enterprise knowledge layer when reusable, permission-aware grounding is needed across multiple agents or applications.
+
+**Foundry Tool Governance**
+Foundry Toolbox, tool catalogs, MCP, OpenAPI tools, Azure Functions, and API Management AI Gateway provide the Microsoft-native path for curated, versioned, governed tool surfaces.
+
+**Azure Agentic Retrieval**
+Azure AI Search, File Search, SharePoint grounding, knowledge sources, citations, and access-controlled indexes are the default retrieval surfaces for private grounded answers.
+
+**Responsible AI Guardrails**
+Microsoft Responsible AI controls cover content filters, Prompt Shields, groundedness, task adherence, red teaming, safety evaluation, and monitoring.
+
+**Agent Publishing**
+Publishing guidance covers Foundry versions, stable endpoints, Teams and Microsoft 365 Copilot distribution, Entra Agent Registry, environment promotion, rollout, and rollback.
+
+**Fabric Data Agent**
+Fabric Data Agent grounds analytical answers in semantic models, lakehouses, warehouses, and Power BI aligned metrics.
+
+**Azure Memory and State**
+Cosmos DB, Blob or ADLS scratchpads, Azure Cache for Redis, session stores, episodic memory, entity state, vector memory, and append-only logs provide Microsoft-native memory and state options.
+
 ## Core Concepts
 
-The collection is organized around four core themes. First, context fundamentals establish what context is, how attention mechanisms work, and why context quality matters more than quantity. Second, architectural patterns cover the structures and coordination mechanisms that enable effective agent systems. Third, operational excellence addresses optimization, evaluation, and harness reliability. Fourth, development methodology and cognitive architecture cover project execution and formal mental-state modeling.
+The collection is organized around five themes. First, context fundamentals establish what context is, how attention mechanisms work, and why context quality matters more than quantity. Second, architectural patterns cover the structures and coordination mechanisms that enable effective agent systems. Third, operational excellence addresses optimization, evaluation, and harness reliability. Fourth, development methodology and cognitive architecture cover project execution and formal mental-state modeling. Fifth, Microsoft-native adaptation binds those mechanisms to Foundry, Azure AI, Fabric, Entra, and Azure operational controls.
 
 ## Practical Guidance
 
-Each skill can be used independently or in combination. Start with fundamentals to establish context management mental models. Branch into architectural patterns based on your system requirements. Reference operational skills when optimizing production systems.
+Each skill can be used independently or in combination. Start with fundamentals to establish context management mental models. Branch into architectural patterns based on system requirements. Reference operational skills when optimizing production systems. For Microsoft-native implementations, pair the relevant core skill with the Azure skill that owns the product binding, security boundary, deployment surface, and operational caveat.
 
-The skills are platform-agnostic and work with Claude Code, Cursor, or any agent framework that supports custom instructions or skill-like constructs.
-
-For Microsoft-native implementations, use the additive Azure companion distribution under `azure/`. It maps the same mechanisms to Microsoft Foundry Agent Service and Hosted Agents, Foundry IQ, Foundry Toolbox, Azure AI Search, Fabric, Entra identity, Responsible AI guardrails, publishing, and Azure memory/state without changing the core skill ownership boundaries.
+The standard package includes both the mechanism-first core skills and the Microsoft-native Azure skills by default. The core `researcher/` corpus remains platform-agnostic for mechanism provenance; Azure metadata lives under `azure/` so product-specific bindings do not pollute the core mechanism registry.
 
 ## Integration
 
-This collection integrates with itself—skills reference each other and build on shared concepts. The fundamentals skill provides context for all other skills. Architectural skills (multi-agent, memory, tools) can be combined for complex systems. Operational skills (optimization, evaluation) apply to any system built using the foundational and architectural skills.
+This collection integrates with itself. The fundamentals skill provides context for all other skills. Architectural skills can be combined for complex systems. Operational skills apply to any system built using the foundational and architectural skills. Azure skills should usually be activated with their core counterpart: `tool-design` with `foundry-tool-governance`, `memory-systems` with `foundry-iq-knowledge-layer` or `azure-memory-state`, `context-optimization` with `azure-agentic-retrieval`, `hosted-agents` with `foundry-hosted-agents`, and `harness-engineering` with `agent-publishing` or `responsible-ai-guardrails`.
 
 ## References
 
-Internal skills in this collection:
+Core skills in this collection:
 - [context-fundamentals](skills/context-fundamentals/SKILL.md)
 - [context-degradation](skills/context-degradation/SKILL.md)
 - [context-compression](skills/context-compression/SKILL.md)
@@ -107,12 +135,23 @@ Internal skills in this collection:
 - [project-development](skills/project-development/SKILL.md)
 - [bdi-mental-states](skills/bdi-mental-states/SKILL.md)
 
+Microsoft-native skills in the default package:
+- [azure-identity-for-agents](azure/skills/azure-identity-for-agents/SKILL.md)
+- [foundry-hosted-agents](azure/skills/foundry-hosted-agents/SKILL.md)
+- [foundry-iq-knowledge-layer](azure/skills/foundry-iq-knowledge-layer/SKILL.md)
+- [foundry-tool-governance](azure/skills/foundry-tool-governance/SKILL.md)
+- [azure-agentic-retrieval](azure/skills/azure-agentic-retrieval/SKILL.md)
+- [responsible-ai-guardrails](azure/skills/responsible-ai-guardrails/SKILL.md)
+- [agent-publishing](azure/skills/agent-publishing/SKILL.md)
+- [fabric-data-agent](azure/skills/fabric-data-agent/SKILL.md)
+- [azure-memory-state](azure/skills/azure-memory-state/SKILL.md)
+
 External resources on context engineering:
 - Research on attention mechanisms and context window limitations
 - Production experience from leading AI labs on agent system design
 - Framework documentation for LangGraph, AutoGen, and CrewAI
 
-Companion distributions:
+Distribution guidance:
 - [Azure AI / Microsoft-native distribution](azure/AZURE-DISTRIBUTION.md)
 
 ---
@@ -120,6 +159,6 @@ Companion distributions:
 ## Skill Metadata
 
 **Created**: 2025-12-20
-**Last Updated**: 2026-05-15
+**Last Updated**: 2026-05-24
 **Author**: Agent Skills for Context Engineering Contributors
 **Version**: 2.3.0

@@ -4,20 +4,21 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Agent Skills for Context Engineering: an open collection of 15 Agent Skills teaching context engineering and harness engineering principles for production AI agent systems. Skills are platform-agnostic (Claude Code, Cursor, GitHub Copilot, any Open Plugins-conformant tool). v2.2.0 ships a file-based researcher operating system with deterministic gates and a continuous loop.
+Agent Skills for Context Engineering: a Microsoft-native adaptation of context engineering and harness engineering skills for production AI agent systems. The standard package includes 24 skills: 15 core mechanism-first skills plus 9 Azure AI / Microsoft Foundry implementation skills. v2.3.0 ships a file-based researcher operating system with deterministic gates and a continuous loop.
 
 Context engineering is the discipline of curating everything that enters a model's context window (system prompts, tool definitions, retrieved documents, message history, tool outputs) to maximize signal within limited attention budget.
 
 ## Repository Structure
 
-- `skills/` - 15 skill directories, each containing a `SKILL.md` with YAML frontmatter (`name`, `description`) and optional `references/` and `scripts/` subdirectories
+- `skills/` - 15 core mechanism-first skill directories, each containing a `SKILL.md` with YAML frontmatter (`name`, `description`) and optional `references/` and `scripts/` subdirectories
+- `azure/skills/` - 9 Microsoft-native implementation skill directories for Foundry, Azure AI Search, Fabric, Entra, Responsible AI, publishing, and memory/state
 - `examples/` - 5 complete demonstration projects (digital-brain-skill, llm-as-judge-skills, book-sft-pipeline, x-to-book-system, interleaved-thinking)
 - `docs/` - Research materials and reference documentation
 - `researcher/` - File-based research-to-skill operating system: rubrics, mechanism registry, claim provenance, corpus index, run state machine, adversarial benchmarks, continuous loop, launchd service definitions
 - `template/SKILL.md` - Canonical skill template (use when creating new skills)
 - `SKILL.md` (root) - Collection-level metadata and skill map
-- `.claude-plugin/marketplace.json` - Claude Code marketplace manifest (single bundled plugin, v2.2.0)
-- `.plugin/plugin.json` - Open Plugins format manifest (v2.2.0)
+- `.claude-plugin/marketplace.json` - Claude Code marketplace manifest (single bundled plugin, v2.3.0)
+- `.plugin/plugin.json` - Open Plugins format manifest (v2.3.0)
 
 ## Build & Test Commands
 
@@ -28,6 +29,7 @@ No top-level build system. Repo-level gates and per-project tooling below.
 ```
 python3 researcher/scripts/validate_repo.py --strict       # corpus structure, manifests, rubric math, mechanism registry, claims, corpus index, activation cases, benchmark scenarios, run artifacts
 python3 researcher/scripts/skill_health.py --strict --no-history  # deterministic skill-body quality gate
+python3 azure/scripts/validate_azure.py                    # Azure adaptation skill and manifest gate
 python3 researcher/scripts/run_benchmarks.py               # adversarial benchmark harness + repo + activation gates
 python3 researcher/scripts/check_activation_cases.py       # skill-boundary regression fixtures
 ```
@@ -88,16 +90,16 @@ When creating or editing skills:
 2. **YAML frontmatter is required**: must include `name` and `description` fields
 3. **Folder naming**: lowercase with hyphens (e.g., `context-fundamentals`)
 4. **Write in third person**: descriptions are injected into system prompts; inconsistent POV causes discovery issues
-5. **Platform-agnostic**: no vendor-locked examples or platform-specific tool names without abstraction
+5. **Scope discipline**: core skills stay mechanism-first; Azure skills own Microsoft product bindings, deployment caveats, and identity/governance defaults
 6. **Token-conscious**: challenge each paragraph and assume an advanced audience
 7. **Body standard**: include `When to Activate`, `Core Concepts`, `Practical Guidance`, `Examples`, `Guidelines`, `Gotchas`, `Integration`, and `References`
 8. **Explicit boundaries**: every `When to Activate` section needs positive triggers plus a `Do not activate` block routing adjacent work to the right skill
 9. **Include a Gotchas section**: experience-derived failure modes are the highest-signal content in any skill
 10. **Update root README.md** when adding new skills
 11. **Update marketplace/plugin manifests** when adding skills (`.claude-plugin/marketplace.json`, `.plugin/plugin.json`)
-12. **Update the corpus index** (`researcher/corpus/index.json`) to map the new skill to activation scenarios, mechanism IDs, and claim IDs
+12. **Update the appropriate corpus index**: core skills use `researcher/corpus/index.json`; Azure skills use `azure/corpus/index.json`
 13. **Update mechanisms and claims**: add registry entries for reusable behavior changes and `claim-*` provenance for numeric, benchmark, volatile, or vendor-performance claims
-14. **Run `validate_repo.py --strict`, `skill_health.py --strict --no-history`, `check_activation_cases.py`, and `run_benchmarks.py`** before committing skill changes
+14. **Run `validate_repo.py --strict`, `skill_health.py --strict --no-history`, `azure/scripts/validate_azure.py`, `check_activation_cases.py`, and `run_benchmarks.py`** before committing skill changes
 
 ## Researcher OS Rules
 
@@ -112,7 +114,7 @@ When working through the researcher operating system:
 
 ## Plugin Architecture
 
-All 15 skills are distributed as a single plugin (`context-engineering`) in the marketplace manifest. This avoids cache duplication: Claude Code caches each plugin's `source` directory separately, so multiple plugins pointing to `source: "./"` would each cache a full copy of the repo.
+All 24 default skills are distributed as a single plugin (`context-engineering`) in the marketplace manifest: 15 core skills from `skills/` plus 9 Azure skills from `azure/skills/`. This makes the Microsoft-native adaptation the default package while keeping the Azure-only manifests available as subset installs.
 
 Progressive disclosure pattern: only skill names/descriptions load at startup; full content loads on activation.
 
