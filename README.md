@@ -4,7 +4,28 @@ A Microsoft-native adaptation of the Agent Skills for Context Engineering collec
 
 The default `context-engineering` package now installs both the core context-engineering skills and the Azure AI / Microsoft Foundry implementation skills. This is not a separate extension layered on afterward. The standard distribution is intended to help agents move from mechanism-level context engineering to Microsoft-native architecture choices by default: Microsoft Foundry Agent Service and Hosted Agents, Foundry IQ, Foundry Toolbox, Azure AI Search, Fabric, Entra identity, Responsible AI guardrails, publishing, and Azure memory/state.
 
-[DeepWiki: Learn more here](https://deepwiki.com/muratcankoylan/Agent-Skills-for-Context-Engineering)
+## Install
+
+For Claude Code, copy and run these two commands:
+
+```text
+/plugin marketplace add FVossebeld/agent-skills-for-context-engineering
+/plugin install context-engineering@context-engineering-marketplace
+```
+
+That installs the full standard package: 24 skills, including the Azure and Microsoft-native adaptation skills. There is no separate Azure install step.
+
+For Open Plugins compatible tools, use this manifest URL:
+
+```text
+https://raw.githubusercontent.com/FVossebeld/agent-skills-for-context-engineering/main/.plugin/plugin.json
+```
+
+For local use or inspection:
+
+```bash
+git clone https://github.com/FVossebeld/agent-skills-for-context-engineering.git
+```
 
 ## What this adaptation does
 
@@ -18,28 +39,11 @@ Default bias:
 4. Prefer Foundry IQ, Azure AI Search, File Search, SharePoint grounding, Fabric Data Agent, Cosmos DB, Blob, and Redis over ad hoc retrieval or memory infrastructure.
 5. Prefer Entra ID, managed identity, RBAC, on-behalf-of access, private networking, Azure Monitor, and Responsible AI controls before adding custom governance.
 
-## Default package
-
-Install the standard plugin to get all 24 skills:
+## What gets installed
 
 - 15 core context-engineering and harness-engineering skills under [`skills/`](skills/)
 - 9 Microsoft-native implementation skills under [`azure/skills/`](azure/skills/)
 - The researcher operating system under [`researcher/`](researcher/) for deterministic gates, mechanism provenance, activation fixtures, and benchmark reporting
-
-### Claude Code
-
-```text
-/plugin marketplace add muratcankoylan/Agent-Skills-for-Context-Engineering
-/plugin install context-engineering@context-engineering-marketplace
-```
-
-### Cursor, GitHub Copilot, and Open Plugins tools
-
-Use the default Open Plugins manifest:
-
-```text
-.plugin/plugin.json
-```
 
 The default Claude marketplace manifest is:
 
@@ -47,7 +51,13 @@ The default Claude marketplace manifest is:
 .claude-plugin/marketplace.json
 ```
 
-The older Azure-only manifests remain available as a subset install path for environments that want only Microsoft-native binding skills, but they are no longer the primary distribution contract:
+The default Open Plugins manifest is:
+
+```text
+.plugin/plugin.json
+```
+
+The older Azure-only manifests remain available as subset install paths for environments that want only Microsoft-native binding skills, but they are no longer the primary distribution contract:
 
 ```text
 .plugin/plugin.azure.json
