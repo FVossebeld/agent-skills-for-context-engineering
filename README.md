@@ -2,6 +2,8 @@
 
 A comprehensive, open collection of Agent Skills focused on context engineering and harness engineering principles for building production-grade AI agent systems. These skills teach the art and science of curating context, designing agent operating loops, and evaluating agent behavior across any agent platform.
 
+This fork adds an Azure AI / Microsoft-native companion distribution for Microsoft Foundry Agent Service and Hosted Agents, Foundry IQ, Foundry Toolbox, Azure AI Search, Fabric, Entra identity, Responsible AI guardrails, publishing, and Azure memory/state. The original platform-agnostic core skills remain intact.
+
 [DeepWiki: Learn more here](https://deepwiki.com/muratcankoylan/Agent-Skills-for-Context-Engineering)
 
 ## What is Context Engineering?
@@ -169,7 +171,13 @@ For Microsoft-native implementations, use the companion distribution under `azur
 
 #### Install the Azure companion in Copilot CLI
 
-In Copilot CLI, run `/plugin` and install the local Open Plugins manifest:
+In Copilot CLI, run `/plugin` and install this repository's Azure Open Plugins manifest:
+
+```text
+FVossebeld/agent-skills-for-context-engineering/.plugin/plugin.azure.json
+```
+
+If you are working from a local clone, install the local manifest instead:
 
 ```text
 .plugin/plugin.azure.json
@@ -183,6 +191,12 @@ To publish the Azure companion to a marketplace, publish this repository or fork
 
 ```text
 .plugin/plugin.azure.json
+```
+
+Public repository:
+
+```text
+https://github.com/FVossebeld/agent-skills-for-context-engineering
 ```
 
 The Claude marketplace metadata for the same Azure companion distribution is:
