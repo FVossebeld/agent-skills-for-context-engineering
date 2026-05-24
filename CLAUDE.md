@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Agent Skills for Context Engineering: a Microsoft-native adaptation of context engineering and harness engineering skills for production AI agent systems. The standard package includes 24 skills: 15 core mechanism-first skills plus 9 Azure AI / Microsoft Foundry implementation skills. v2.3.0 ships a file-based researcher operating system with deterministic gates and a continuous loop.
+Agent Skills for Context Engineering: a Microsoft-native adaptation of context engineering and harness engineering skills for production AI agent systems. The standard package includes 24 skills: 15 core mechanism-first skills plus 9 Azure AI / Microsoft Foundry implementation skills. v2.4.0 ships the Azure adaptation as the default package while retaining the file-based researcher operating system with deterministic gates and a continuous loop.
 
 Context engineering is the discipline of curating everything that enters a model's context window (system prompts, tool definitions, retrieved documents, message history, tool outputs) to maximize signal within limited attention budget.
 
@@ -17,8 +17,8 @@ Context engineering is the discipline of curating everything that enters a model
 - `researcher/` - File-based research-to-skill operating system: rubrics, mechanism registry, claim provenance, corpus index, run state machine, adversarial benchmarks, continuous loop, launchd service definitions
 - `template/SKILL.md` - Canonical skill template (use when creating new skills)
 - `SKILL.md` (root) - Collection-level metadata and skill map
-- `.claude-plugin/marketplace.json` - Claude Code marketplace manifest (single bundled plugin, v2.3.0)
-- `.plugin/plugin.json` - Open Plugins format manifest (v2.3.0)
+- `.claude-plugin/marketplace.json` - Claude Code marketplace manifest (single bundled plugin, v2.4.0)
+- `.plugin/plugin.json` - Open Plugins format manifest (v2.4.0)
 
 ## Build & Test Commands
 

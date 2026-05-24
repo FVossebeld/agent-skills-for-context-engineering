@@ -161,4 +161,4 @@ Distribution guidance:
 **Created**: 2025-12-20
 **Last Updated**: 2026-05-24
 **Author**: Agent Skills for Context Engineering Contributors
-**Version**: 2.3.0
+**Version**: 2.4.0

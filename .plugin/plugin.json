@@ -1,7 +1,7 @@
 {
   "name": "context-engineering",
   "description": "Microsoft-native context engineering adaptation for production-grade agent systems. Bundles core context and harness engineering skills with Azure and Microsoft Foundry defaults for hosted agents, Foundry IQ, Foundry Toolbox, Azure AI Search, Fabric, Entra identity, Responsible AI guardrails, publishing, memory/state, and a file-based researcher operating system with deterministic gates.",
-  "version": "2.3.0",
+  "version": "2.4.0",
   "author": {
     "name": "Muratcan Koylan"
   }
