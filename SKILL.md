@@ -82,6 +82,8 @@ Each skill can be used independently or in combination. Start with fundamentals 
 
 The skills are platform-agnostic and work with Claude Code, Cursor, or any agent framework that supports custom instructions or skill-like constructs.
 
+For Microsoft-native implementations, use the additive Azure companion distribution under `azure/`. It maps the same mechanisms to Microsoft Foundry Agent Service and Hosted Agents, Foundry IQ, Foundry Toolbox, Azure AI Search, Fabric, Entra identity, Responsible AI guardrails, publishing, and Azure memory/state without changing the core skill ownership boundaries.
+
 ## Integration
 
 This collection integrates with itself—skills reference each other and build on shared concepts. The fundamentals skill provides context for all other skills. Architectural skills (multi-agent, memory, tools) can be combined for complex systems. Operational skills (optimization, evaluation) apply to any system built using the foundational and architectural skills.
@@ -109,6 +111,9 @@ External resources on context engineering:
 - Research on attention mechanisms and context window limitations
 - Production experience from leading AI labs on agent system design
 - Framework documentation for LangGraph, AutoGen, and CrewAI
+
+Companion distributions:
+- [Azure AI / Microsoft-native distribution](azure/AZURE-DISTRIBUTION.md)
 
 ---
 

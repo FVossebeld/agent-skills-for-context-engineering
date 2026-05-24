@@ -81,6 +81,12 @@ Each skill is structured for efficient context use. At startup, agents load only
 
 These skills focus on transferable principles rather than vendor-specific implementations. The patterns work across Claude Code, Cursor, and any agent platform that supports skills or allows custom instructions.
 
+### Microsoft-native Companion Distribution
+
+The [`azure/`](azure/) directory provides an additive Azure AI / Microsoft-native companion distribution. It keeps the core skills platform-agnostic while adding opinionated defaults for Microsoft Foundry Agent Service and Hosted Agents, Foundry IQ, Foundry Toolbox, Azure AI Search, Fabric, Entra identity, Responsible AI guardrails, publishing, and Azure memory/state.
+
+Use [`azure/AZURE-DISTRIBUTION.md`](azure/AZURE-DISTRIBUTION.md) when implementing these mechanisms on the Microsoft stack. The Azure plugin uses `source: "./azure"` so it can be installed separately without caching the full researcher OS.
+
 ### Conceptual Foundation with Practical Examples
 
 Scripts and examples demonstrate concepts using Python pseudocode that works across environments without requiring specific dependency installations.
@@ -144,6 +150,46 @@ This installs all 15 skills in a single plugin. Skills are activated automatical
 This repository is listed on the [Cursor Plugin Directory](https://cursor.directory/plugins/context-engineering).
 
 The `.plugin/plugin.json` manifest follows the [Open Plugins](https://open-plugins.com) standard, so the repo also works with any conformant agent tool (Codex, GitHub Copilot, etc.).
+
+### Azure AI / Microsoft-native Companion
+
+For Microsoft-native implementations, use the companion distribution under `azure/`. It includes nine skills:
+
+| Skill | Activate When |
+|-------|---------------|
+| `azure-identity-for-agents` | Designing managed identity, RBAC, OBO, tenant boundaries, or per-user authorization |
+| `foundry-hosted-agents` | Designing managed Foundry hosted agent runtimes, endpoints, sandboxing, scaling, runtime state, or production execution boundaries |
+| `foundry-iq-knowledge-layer` | Designing reusable Foundry IQ knowledge bases, enterprise grounding, federated sources, or permission-aware knowledge APIs |
+| `foundry-tool-governance` | Curating tools with Foundry Toolbox, tool catalog, MCP, OpenAPI, Azure Functions, or APIM AI Gateway |
+| `azure-agentic-retrieval` | Implementing Azure AI Search, File Search, SharePoint grounding, knowledge sources, or retrieval citations |
+| `responsible-ai-guardrails` | Applying Content Safety, Prompt Shields, groundedness, task adherence, red teaming, or safety monitoring |
+| `agent-publishing` | Publishing agents to stable Foundry endpoints, Teams, Microsoft 365 Copilot, or enterprise registries |
+| `fabric-data-agent` | Grounding agents in Fabric semantic models, lakehouses, warehouses, and Power BI-aligned metrics |
+| `azure-memory-state` | Implementing Cosmos DB, Blob, ADLS, Redis, session state, episodic memory, or append-only logs |
+
+#### Install the Azure companion in Copilot CLI
+
+In Copilot CLI, run `/plugin` and install the local Open Plugins manifest:
+
+```text
+.plugin/plugin.azure.json
+```
+
+Then run `/skills` to confirm the Azure companion skills are available. The Azure plugin is a Microsoft-native companion distribution, not a replacement for the platform-agnostic core plugin in `.plugin/plugin.json`.
+
+#### Publish the Azure companion
+
+To publish the Azure companion to a marketplace, publish this repository or fork with the Azure files included and submit the Open Plugins manifest:
+
+```text
+.plugin/plugin.azure.json
+```
+
+The Claude marketplace metadata for the same Azure companion distribution is:
+
+```text
+.claude-plugin/marketplace.azure.json
+```
 
 ### Using Individual Skills
 

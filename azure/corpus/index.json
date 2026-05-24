@@ -1,0 +1,51 @@
+{
+  "schema_version": "0.1.0",
+  "purpose": "Azure companion map for Microsoft-native bindings. This file is intentionally separate from researcher/corpus/index.json.",
+  "skills": [
+    {
+      "name": "agent-publishing",
+      "path": "skills/agent-publishing/SKILL.md",
+      "activation_scenarios": ["Foundry publishing", "Teams distribution", "Microsoft 365 Copilot distribution", "agent version promotion"]
+    },
+    {
+      "name": "azure-agentic-retrieval",
+      "path": "skills/azure-agentic-retrieval/SKILL.md",
+      "activation_scenarios": ["Azure AI Search agentic retrieval", "knowledge source design", "private grounded retrieval", "retrieval citations"]
+    },
+    {
+      "name": "azure-identity-for-agents",
+      "path": "skills/azure-identity-for-agents/SKILL.md",
+      "activation_scenarios": ["managed identity", "RBAC", "on-behalf-of access", "tenant boundaries"]
+    },
+    {
+      "name": "foundry-hosted-agents",
+      "path": "skills/foundry-hosted-agents/SKILL.md",
+      "activation_scenarios": ["Foundry Hosted Agents", "managed agent runtime", "production agent endpoints", "agent sandboxing"]
+    },
+    {
+      "name": "foundry-iq-knowledge-layer",
+      "path": "skills/foundry-iq-knowledge-layer/SKILL.md",
+      "activation_scenarios": ["Foundry IQ", "enterprise knowledge bases", "permission-aware grounding", "federated knowledge APIs"]
+    },
+    {
+      "name": "azure-memory-state",
+      "path": "skills/azure-memory-state/SKILL.md",
+      "activation_scenarios": ["Cosmos DB agent memory", "Blob scratchpads", "Redis working memory", "session state"]
+    },
+    {
+      "name": "fabric-data-agent",
+      "path": "skills/fabric-data-agent/SKILL.md",
+      "activation_scenarios": ["Fabric data grounding", "semantic model querying", "lakehouse agent access", "Power BI aligned answers"]
+    },
+    {
+      "name": "foundry-tool-governance",
+      "path": "skills/foundry-tool-governance/SKILL.md",
+      "activation_scenarios": ["Foundry Toolbox", "tool catalog", "MCP governance", "APIM AI Gateway"]
+    },
+    {
+      "name": "responsible-ai-guardrails",
+      "path": "skills/responsible-ai-guardrails/SKILL.md",
+      "activation_scenarios": ["Prompt Shields", "groundedness checks", "content filters", "red teaming"]
+    }
+  ]
+}
